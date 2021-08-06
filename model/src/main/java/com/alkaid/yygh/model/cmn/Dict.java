@@ -64,6 +64,6 @@ public class Dict {
 
     @ApiModelProperty(value = "是否包含子节点")
     @TableField(exist = false)
-    private boolean hasChildren;
+    private boolean hasChildren;  //表中没有，hasChildren在前端中用elementUi显示子表
 
 }
