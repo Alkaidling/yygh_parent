@@ -7,6 +7,7 @@ import com.alkaid.yygh.cmn.service.DictService;
 import com.alkaid.yygh.model.cmn.Dict;
 import com.alkaid.yygh.vo.cmn.DictEeVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,7 +32,7 @@ import java.util.List;
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
 
-    //根据数据id查询子数据列表
+    //根据数据id查询子数据列表(id = parentid)
     @Override
     @Cacheable(value = "dict",keyGenerator = "keyGenerator")
     public List<Dict> findChildData(Long id) {
@@ -85,6 +86,46 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
     }
 
+    //根据dictcode和value值进行查询
+    @Override
+    public String getDictName(String dictcode, String value) {
+        //如果dictcode值为空，直接根据value查询
+        if(StringUtils.isEmpty(dictcode)){
+            QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+            wrapper.eq("value",value);
+            Dict dict = baseMapper.selectOne(wrapper);
+            return dict.getName();
+        }else {//如果dictcode值不为空，根据dictcode和value查询
+            //根据dictcode查询对象，得到id值
+            Dict codeDict = this.getDictByDictCode(dictcode);
+            Long parentId = codeDict.getId();
+            //根据parentid和value值查询
+            Dict dict = baseMapper.selectOne(new QueryWrapper<Dict>()
+                    .eq("parent_id", parentId)
+                    .eq("value", value));
+            return dict.getName();
+        }
+    }
+
+    //根据dictcode获取下级节点
+    @Override
+    public List<Dict> findByDictCode(String dictcode) {
+        //根据dictcode获取对应id
+        Dict dict = this.getDictByDictCode(dictcode);
+        //根据id获取子数据列表
+        List<Dict> list = this.findChildData(dict.getId());
+
+        return list;
+    }
+
+    //根据dictcode查询对象
+    private Dict getDictByDictCode(String dictcode){
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.eq("dict_code",dictcode);
+        Dict codeDict = baseMapper.selectOne(wrapper);
+        return codeDict;
+    }
+
     //判断id下是否由子数据
     private boolean isChildren(Long id){
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
@@ -93,4 +134,5 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         return count > 0;
 
     }
+
 }

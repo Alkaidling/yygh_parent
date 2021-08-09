@@ -52,5 +52,27 @@ public class DictController {
         return Result.ok(list);
     }
 
+    //下面三个方法是为了在dict中查询出数据，并跟mongodb中查得的数据（该查询在service_hosp模块中）
+    //最终完成dict表与mongodb中表的连表显示，比如（根据mongodb中的hostype字段对应着dict表中dict_code字段下的hostype值 即医院等级）
+    //根据dictcode和value值进行查询
+    @GetMapping("getName/{dictcode}/{value}")
+    public String getName(@PathVariable String dictcode,@PathVariable String value){
+        String dictName = dictService.getDictName(dictcode,value);
+        return dictName;
+    }
 
+    //根据value值进行查询
+    @GetMapping("getName/{value}")
+    public String getName(@PathVariable String value){
+        String dictName = dictService.getDictName("",value);
+        return dictName;
+    }
+
+    //根据dictcode获取下级节点
+    @ApiOperation(value = "根据dictcode获取下级节点")
+    @GetMapping("findByDictCode/{dictcode}")
+    public Result findByDictCode(@PathVariable String dictcode){
+        List<Dict> list = dictService.findByDictCode(dictcode);
+        return Result.ok(list);
+    }
 }
