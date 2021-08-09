@@ -31,7 +31,7 @@ import java.util.Map;
  * @Auther: Alkaid
  * @Date: 2021-08-07 17:43
  * @ClassName ApiController
- * @Description:
+ * @Description: 访问医院信息的Api接口
  */
 @RestController
 @RequestMapping("/api/hosp")
