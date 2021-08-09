@@ -24,7 +24,7 @@ import java.util.Random;
  * @Auther: Alkaid
  * @Date: 2021-08-03 16:34
  * @ClassName HospitalSetController
- * @Description:
+ * @Description: 医院信息设置
  */
 @Api(tags = "医院设置管理")  //swagger显示类的中文信息
 @RestController
