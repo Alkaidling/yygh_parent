@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.2020.2.3
@@ -91,6 +89,40 @@ public class HospitalServiceImpl implements HospitalService {
         });
 
         return pages;
+    }
+
+    //更新医院上线状态
+    @Override
+    public void updateStatus(String id, Integer status) {
+        //根据id获取对象
+        Hospital hospital = hospitalRepository.findById(id).get();
+        //设置值
+        hospital.setStatus(status);
+        hospital.setUpdateTime(new Date());
+        hospitalRepository.save(hospital);
+    }
+
+    //医院详情信息
+    @Override
+    public Map<String, Object> getHospById(String id) {
+        Hospital hospital = this.setHopitalHosType(hospitalRepository.findById(id).get());
+        Map<String, Object> result = new HashMap<>();
+        //医院基本信息包含医院等级
+        result.put("hospital",hospital);
+        //单独处理更直观
+        result.put("bookingRule", hospital.getBookingRule());
+        //不需要重复返回
+        hospital.setBookingRule(null);
+
+        return result;
+    }
+    //获取医院名称
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        if(hospital != null)
+            return hospital.getHosname();
+        return null;
     }
 
     //进行医院等级封装
