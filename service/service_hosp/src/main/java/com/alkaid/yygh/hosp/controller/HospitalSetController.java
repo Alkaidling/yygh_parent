@@ -29,7 +29,6 @@ import java.util.Random;
 @Api(tags = "医院设置管理")  //swagger显示类的中文信息
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
-@CrossOrigin  //允许跨域访问
 public class HospitalSetController {
 
     @Autowired
