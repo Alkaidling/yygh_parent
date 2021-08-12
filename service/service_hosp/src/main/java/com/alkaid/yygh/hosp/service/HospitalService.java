@@ -4,6 +4,7 @@ import com.alkaid.yygh.model.hosp.Hospital;
 import com.alkaid.yygh.vo.hosp.HospitalQueryVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,4 +29,8 @@ public interface HospitalService {
     Map<String, Object> getHospById(String id);
     //获取医院名称
     String getHospName(String hoscode);
+    //根据医院名称查询
+    List<Hospital> findByHosName(String hosname);
+    //根据医院编号获取所有预约挂号信息
+    Map<String, Object> item(String hoscode);
 }
