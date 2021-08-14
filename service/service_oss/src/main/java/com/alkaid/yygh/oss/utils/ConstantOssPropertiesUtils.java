@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created with IntelliJ IDEA.2020.2.3
  *
  * @Auther: Alkaid
- * @Date: 2021-08-14 22:00
+ * @Date: 2021-08-14 17:21
  * @ClassName ConstantOssPropertiesUtils
  * @Description:
  */

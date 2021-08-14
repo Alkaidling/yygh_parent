@@ -12,11 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
  * Created with IntelliJ IDEA.2020.2.3
  *
  * @Auther: Alkaid
- * @Date: 2021-08-14 22:03
+ * @Date: 2021-08-14 17:15
  * @ClassName FileApiController
  * @Description:
  */
-
 @RestController
 @RequestMapping("/api/oss/file")
 public class FileApiController {
@@ -25,10 +24,9 @@ public class FileApiController {
 
     //上传文件到阿里云oss
     @PostMapping("fileUpload")
-    public Result fileUpload(MultipartFile file) {
+    public Result fileUpload(MultipartFile file){
         //获取上传文件
-        String url = fileService.upload(file);
+        String url = fileService.upLoad(file);
         return Result.ok(url);
     }
 }
-

@@ -6,12 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
  * Created with IntelliJ IDEA.2020.2.3
  *
  * @Auther: Alkaid
- * @Date: 2021-08-14 22:02
+ * @Date: 2021-08-14 17:17
  * @ClassName FileService
  * @Description:
  */
 
 public interface FileService {
     //获取上传文件
-    String upload(MultipartFile file);
+    String upLoad(MultipartFile file);
 }

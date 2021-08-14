@@ -16,15 +16,16 @@ import java.util.UUID;
  * Created with IntelliJ IDEA.2020.2.3
  *
  * @Auther: Alkaid
- * @Date: 2021-08-14 22:03
+ * @Date: 2021-08-14 17:17
  * @ClassName FileServiceImpl
  * @Description:
  */
 @Service
 public class FileServiceImpl implements FileService {
+
     //获取上传文件
     @Override
-    public String upload(MultipartFile file) {
+    public String upLoad(MultipartFile file) {
 
         String endpoint = ConstantOssPropertiesUtils.EDNPOINT;
         String accessKeyId = ConstantOssPropertiesUtils.ACCESS_KEY_ID;
@@ -56,5 +57,6 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             return null;
         }
+
     }
 }
