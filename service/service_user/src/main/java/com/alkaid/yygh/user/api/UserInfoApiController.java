@@ -1,4 +1,4 @@
-package com.alkaid.yygh.user.controller;
+package com.alkaid.yygh.user.api;
 
 import com.alkaid.yygh.common.result.Result;
 import com.alkaid.yygh.model.user.UserInfo;
