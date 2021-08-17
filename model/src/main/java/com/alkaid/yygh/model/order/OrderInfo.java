@@ -50,7 +50,7 @@ public class OrderInfo extends BaseEntity {
 	private String depname;
 
 	@ApiModelProperty(value = "排班id")
-	@TableField("schedule_id")
+	@TableField("hos_schedule_id")  //4、与数据库表中字段不一致
 	private String scheduleId;
 
 	@ApiModelProperty(value = "医生职称")
