@@ -28,4 +28,6 @@ public interface DepartmentService {
     List<DepartmentVo> finDeptTree(String hoscode);
     //根据医院编号，科室编号 查询科室名称
     String getDepName(String hoscode, String depcode);
+    //根据医院编号，科室编号 查询科室
+    Department getDepartment(String hoscode, String depcode);
 }

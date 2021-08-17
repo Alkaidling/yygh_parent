@@ -39,6 +39,11 @@
             <artifactId>service_cmn_client</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.alkaid.yygh</groupId>
+            <artifactId>rabbit_util</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
