@@ -24,6 +24,7 @@ public class RabbitService {
      */
     public boolean sendMessage(String exchange, String routingKey, Object message) {
         rabbitTemplate.convertAndSend(exchange, routingKey, message);
+        System.out.println(message);
         return true;
     }
 }
