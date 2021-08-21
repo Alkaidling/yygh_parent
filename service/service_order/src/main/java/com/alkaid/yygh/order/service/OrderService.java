@@ -1,10 +1,13 @@
 package com.alkaid.yygh.order.service;
 
 import com.alkaid.yygh.model.order.OrderInfo;
+import com.alkaid.yygh.vo.order.OrderCountQueryVo;
 import com.alkaid.yygh.vo.order.OrderQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.2020.2.3
@@ -28,4 +31,6 @@ public interface OrderService extends IService<OrderInfo> {
     Boolean cancelOrder(Long orderId);
     //就诊提醒
     void patientTips();
+    //预约统计方法
+    Map<String,Object> getCountMap(OrderCountQueryVo orderCountQueryVo);
 }

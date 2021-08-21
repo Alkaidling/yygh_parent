@@ -16,9 +16,7 @@ import com.alkaid.yygh.order.service.WeixinService;
 import com.alkaid.yygh.user.client.PatientFeignClient;
 import com.alkaid.yygh.vo.hosp.ScheduleOrderVo;
 import com.alkaid.yygh.vo.msm.MsmVo;
-import com.alkaid.yygh.vo.order.OrderMqVo;
-import com.alkaid.yygh.vo.order.OrderQueryVo;
-import com.alkaid.yygh.vo.order.SignInfoVo;
+import com.alkaid.yygh.vo.order.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -30,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.2020.2.3
@@ -189,7 +188,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
     public IPage<OrderInfo> selectPage(Page<OrderInfo> pageParam, OrderQueryVo orderQueryVo) {
         //orderQueryVo获取条件值
         String name = orderQueryVo.getKeyword(); //医院名称
-        Long patientId = orderQueryVo.getPatientId(); //就诊人名称
+        String outTradeNo = orderQueryVo.getOutTradeNo(); //订单交易号
+        Long userId = orderQueryVo.getUserId(); //登录用户id
+        Long patientId = orderQueryVo.getPatientId(); //就诊人id
+        String getPatientName = orderQueryVo.getPatientName(); //就诊人名称
         String orderStatus = orderQueryVo.getOrderStatus(); //订单状态
         String reserveDate = orderQueryVo.getReserveDate();//安排时间
         String createTimeBegin = orderQueryVo.getCreateTimeBegin();
@@ -201,6 +203,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
         }
         if(!StringUtils.isEmpty(patientId)) {
             wrapper.eq("patient_id",patientId);
+        }
+        if(!StringUtils.isEmpty(outTradeNo)) {
+            wrapper.eq("out_trade_no",outTradeNo);
+        }
+        if(!StringUtils.isEmpty(userId)) {
+            wrapper.eq("user_id",userId);
+        }
+        if(!StringUtils.isEmpty(getPatientName)) {
+            wrapper.eq("patient_name",getPatientName);
         }
         if(!StringUtils.isEmpty(orderStatus)) {
             wrapper.eq("order_status",orderStatus);
@@ -337,6 +348,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderInfo> implem
             rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
         }
 
+    }
+
+    //预约统计方法
+    @Override
+    public Map<String, Object> getCountMap(OrderCountQueryVo orderCountQueryVo) {
+        //调用mapper方法得到数据
+        List<OrderCountVo> orderCountVoList = baseMapper.selectOrderCount(orderCountQueryVo);
+
+        //获取x轴 日期数据 list集合
+        List<String> dateList = orderCountVoList.stream().map(OrderCountVo::getReserveDate).collect(Collectors.toList());
+
+        //获取y轴 具体数量 list集合
+        List<Integer> countList =orderCountVoList.stream().map(OrderCountVo::getCount).collect(Collectors.toList());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("dateList", dateList);
+        map.put("countList", countList);
+
+        return map;
     }
 
 

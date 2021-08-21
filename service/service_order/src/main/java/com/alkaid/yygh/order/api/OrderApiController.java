@@ -5,6 +5,7 @@ import com.alkaid.yygh.enums.OrderStatusEnum;
 import com.alkaid.yygh.model.order.OrderInfo;
 import com.alkaid.yygh.order.service.OrderService;
 import com.alkaid.yygh.order.utils.AuthContextHolder;
+import com.alkaid.yygh.vo.order.OrderCountQueryVo;
 import com.alkaid.yygh.vo.order.OrderQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.2020.2.3
@@ -78,4 +80,10 @@ public class OrderApiController {
         return Result.ok(isOrder);
     }
 
+    //获取订单统计数据
+    @ApiOperation(value = "获取订单统计数据")
+    @PostMapping("inner/getCountMap")
+    public Map<String, Object> getCountMap(@RequestBody OrderCountQueryVo orderCountQueryVo) {
+        return orderService.getCountMap(orderCountQueryVo);
+    }
 }
